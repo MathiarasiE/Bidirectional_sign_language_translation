@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Language Translator</title>
+</head>
+<body>
+    <h2>Upload Sign Language Video</h2>
+
+    <input type="file" id="videoFile">
+    <button onclick="sendVideo()">Translate</button>
+
+    <h3>Output:</h3>
+    <p id="output"></p>
+
+    <script>
+        function sendVideo() {
+            const fileInput = document.getElementById("videoFile");
+            const formData = new FormData();
+            formData.append("video", fileInput.files[0]);
+
+            fetch("http://127.0.0.1:5000/predict", {
+                method: "POST",
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("output").innerText =
+                    "Refined Text: " + data.refined_text;
+            });
+        }
+    </script>
+</body>
+</html>
